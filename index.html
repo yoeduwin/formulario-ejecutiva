@@ -12,58 +12,104 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #005600 0%, #003d00 100%);
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
             padding: 20px;
-            min-height: 100vh;
+            font-size: 12px;
         }
         
-        .container {
-            max-width: 900px;
+        .main-container {
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1);
             overflow: hidden;
         }
         
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #005600 0%, #003d00 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
+            background: linear-gradient(135deg, #1e5a3e, #2d7a4f);
+            color: #fff;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 600;
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e5a3e;
+            font-weight: bold;
+            font-size: 20px;
         }
         
-        .form-content {
-            padding: 40px;
-        }
-        
-        .section-title {
-            background: #f0f0f0;
-            padding: 15px 20px;
-            margin: 30px -40px 25px -40px;
+        .company-info h1 {
+            margin: 0;
             font-size: 18px;
-            font-weight: 600;
-            color: #005600;
-            border-left: 5px solid #005600;
+            font-weight: bold;
         }
         
-        .section-title:first-of-type {
-            margin-top: 0;
+        .company-info p {
+            margin: 3px 0 0 0;
+            font-size: 10px;
+            opacity: 0.95;
+            max-width: 500px;
         }
         
-        .form-row {
+        .document-info h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .document-info p {
+            margin: 3px 0 0 0;
+            font-size: 11px;
+            opacity: 0.9;
+            text-align: right;
+        }
+        
+        /* Form Content */
+        .form-content {
+            padding: 30px 40px;
+        }
+        
+        .section {
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-header {
+            background: #1e5a3e;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 0 -40px 25px -40px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -80,59 +126,71 @@
         }
         
         label {
-            font-size: 14px;
-            font-weight: 500;
+            font-weight: bold;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
         }
         
         label .required {
-            color: #d32f2f;
+            color: #dc3545;
             margin-left: 3px;
+        }
+        
+        label .optional {
+            color: #6c757d;
+            font-weight: normal;
+            text-transform: none;
+            margin-left: 5px;
+            font-size: 10px;
         }
         
         input[type="text"],
         input[type="email"],
         input[type="tel"],
+        input[type="number"],
         textarea,
+        select,
         input[type="file"] {
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            font-size: 11px;
+            border-radius: 3px;
+            background: #f9f9f9;
             font-family: inherit;
+            transition: all 0.2s;
         }
         
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        textarea:focus {
+        input:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
-            border-color: #005600;
-            box-shadow: 0 0 0 3px rgba(0, 86, 0, 0.1);
+            border-color: #1e5a3e;
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(30, 90, 62, 0.1);
         }
         
         textarea {
             resize: vertical;
-            min-height: 100px;
-        }
-        
-        .file-upload-wrapper {
-            position: relative;
+            min-height: 80px;
+            font-family: Arial, sans-serif;
         }
         
         input[type="file"] {
-            padding: 10px;
+            padding: 6px 8px;
             cursor: pointer;
+            font-size: 10px;
         }
         
         .helper-text {
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin-top: 5px;
+            margin-top: 4px;
+            font-style: italic;
         }
         
+        /* Submit Section */
         .submit-section {
             margin-top: 40px;
             padding-top: 30px;
@@ -141,36 +199,44 @@
         }
         
         .btn-submit {
-            background: linear-gradient(135deg, #005600 0%, #003d00 100%);
+            background: linear-gradient(135deg, #1e5a3e, #2d7a4f);
             color: white;
             padding: 15px 50px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 86, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(30, 90, 62, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 86, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 90, 62, 0.4);
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
         }
         
         .btn-submit:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
         
-        .success-message,
-        .error-message {
+        /* Messages */
+        .message {
             padding: 15px 20px;
             border-radius: 5px;
             margin-top: 20px;
             display: none;
             text-align: center;
             font-weight: 500;
+            font-size: 12px;
         }
         
         .success-message {
@@ -185,6 +251,7 @@
             border: 1px solid #f5c6cb;
         }
         
+        /* Loading */
         .loading {
             display: none;
             text-align: center;
@@ -193,7 +260,7 @@
         
         .loading-spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #005600;
+            border-top: 3px solid #1e5a3e;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -206,215 +273,328 @@
             100% { transform: rotate(360deg); }
         }
         
+        .loading-text {
+            margin-top: 15px;
+            color: #1e5a3e;
+            font-weight: 500;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .form-row {
+            body {
+                padding: 10px;
+            }
+            
+            .form-grid {
                 grid-template-columns: 1fr;
             }
             
             .form-content {
-                padding: 25px;
+                padding: 20px;
             }
             
-            .section-title {
-                margin-left: -25px;
-                margin-right: -25px;
+            .section-header {
+                margin: 0 -20px 20px -20px;
             }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .document-info h2,
+            .document-info p {
+                text-align: center;
+            }
+        }
+        
+        /* File upload styling */
+        .file-upload-group {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            background: #fafafa;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-group:hover {
+            border-color: #1e5a3e;
+            background: #f0f9f4;
+        }
+        
+        .file-upload-group label {
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="main-container">
+        <!-- Header -->
         <div class="header">
-            <h1>PERFIL DE DATOS DEL CLIENTE</h1>
-            <p>Solución en Ingeniería Ejecutiva Ambiental S.A. de C.V.</p>
+            <div class="logo-section">
+                <div class="logo">EA</div>
+                <div class="company-info">
+                    <h1>EJECUTIVA AMBIENTAL</h1>
+                    <p>SEGURIDAD E HIGIENE, CAPACITACIÓN, MANTENIMIENTO INDUSTRIAL, PROTECCIÓN CIVIL, MEDIO AMBIENTE</p>
+                </div>
+            </div>
+            <div class="document-info">
+                <h2>PERFIL DE DATOS</h2>
+                <p>Información del Cliente</p>
+            </div>
         </div>
         
+        <!-- Form Content -->
         <div class="form-content">
             <form id="perfilDatosForm">
-                <div class="section-title">INFORMACIÓN GENERAL</div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Nombre y puesto solicitante<span class="required">*</span></label>
-                        <input type="text" name="nombre_solicitante" required>
+                <!-- INFORMACIÓN GENERAL -->
+                <div class="section">
+                    <div class="section-header">Información General</div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Nombre y puesto solicitante<span class="required">*</span></label>
+                            <input type="text" name="nombre_solicitante" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Denominación/Razón social<span class="required">*</span></label>
+                            <input type="text" name="razon_social" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>RFC<span class="required">*</span></label>
+                            <input type="text" name="rfc" required maxlength="13" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono empresa<span class="required">*</span></label>
+                            <input type="tel" name="telefono_empresa" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Representante legal<span class="required">*</span></label>
+                            <input type="text" name="representante_legal" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Dirección donde se evaluará<span class="required">*</span></label>
+                            <input type="text" name="direccion_evaluacion" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Responsable de atendernos<span class="required">*</span></label>
+                            <input type="text" name="responsable" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono<span class="required">*</span></label>
+                            <input type="tel" name="telefono_responsable" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Giro de la empresa<span class="required">*</span></label>
+                            <input type="text" name="giro" required>
+                        </div>
+                    </div>
+                    
+                    <!-- CAMPOS ADICIONALES -->
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Actividad principal<span class="optional">(Opcional)</span></label>
+                            <input type="text" name="actividad_principal">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Registro patronal<span class="optional">(Opcional)</span></label>
+                            <input type="text" name="registro_patronal">
+                        </div>
+                        <div class="form-group">
+                            <label>Capacidad instalada<span class="optional">(Opcional)</span></label>
+                            <input type="text" name="capacidad_instalada">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Capacidad de operación<span class="optional">(Opcional)</span></label>
+                            <input type="text" name="capacidad_operacion">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Días, turnos y horarios de trabajo<span class="required">*</span></label>
+                            <textarea name="dias_turnos_horarios" required placeholder="Ej: Lunes a Viernes, 2 turnos (8:00-16:00 y 16:00-00:00)"></textarea>
+                            <span class="helper-text">Especifique los días de la semana, número de turnos y horarios</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Denominación/Razón social<span class="required">*</span></label>
-                        <input type="text" name="razon_social" required>
+                <!-- SOBRE EL INFORME -->
+                <div class="section">
+                    <div class="section-header">Sobre el Informe de Resultados</div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Nombre de a quién se dirige<span class="required">*</span></label>
+                            <input type="text" name="nombre_dirigido" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Puesto de a quién se dirige<span class="required">*</span></label>
+                            <input type="text" name="puesto_dirigido" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Correo electrónico para enviar el informe digital<span class="required">*</span></label>
+                            <input type="email" name="correo_informe" required>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>RFC<span class="required">*</span></label>
-                        <input type="text" name="rfc" required maxlength="13">
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono empresa<span class="required">*</span></label>
-                        <input type="tel" name="telefono_empresa" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Representante legal<span class="required">*</span></label>
-                        <input type="text" name="representante_legal" required>
+                <!-- DESCRIPCIÓN DEL PROCESO -->
+                <div class="section">
+                    <div class="section-header">Descripción del Proceso</div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Breve descripción del proceso operativo o productivo<span class="optional">(Opcional)</span></label>
+                            <textarea name="descripcion_proceso" placeholder="Describa brevemente el proceso operativo de su empresa..."></textarea>
+                            <span class="helper-text">También puede adjuntar documento más adelante</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Dirección donde se evaluará<span class="required">*</span></label>
-                        <input type="text" name="direccion_evaluacion" required>
+                <!-- ARCHIVOS ADJUNTOS -->
+                <div class="section">
+                    <div class="section-header">Archivos Adjuntos</div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>1) Planos generales - Layout de la empresa</label>
+                            <input type="file" name="planos" accept=".pdf,.jpg,.jpeg,.png,.dwg">
+                            <span class="helper-text">Formatos: PDF, JPG, PNG, DWG (Máx. 10MB)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>2) Programa de mantenimiento</label>
+                            <input type="file" name="mantenimiento" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                            <span class="helper-text">Luminarias, maquinaria, sistema de tierras (según aplique)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>3) Proceso de producción</label>
+                            <input type="file" name="proceso_produccion" accept=".pdf,.doc,.docx">
+                            <span class="helper-text">Solo si no lo describió anteriormente</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>4) Requisitos obligatorios para ingresar a planta</label>
+                            <input type="file" name="requisitos_ingreso" accept=".pdf,.doc,.docx">
+                            <span class="helper-text">EPP, documentación u otros</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Responsable de atendernos<span class="required">*</span></label>
-                        <input type="text" name="responsable" required>
+                <!-- DOCUMENTACIÓN LEGAL -->
+                <div class="section">
+                    <div class="section-header">SOLO SI SON RECIPIENTES O CALDERAS - Documentación Legal </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>A) INE de quien nos atenderá</label>
+                            <input type="file" name="ine_atencion" accept=".pdf,.jpg,.jpeg,.png">
+                            <span class="helper-text">Copia por ambos lados</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Teléfono<span class="required">*</span></label>
-                        <input type="tel" name="telefono_responsable" required>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>B) Nombre y puesto Testigo 1</label>
+                            <input type="text" name="testigo1">
+                        </div>
+                        <div class="form-group file-upload-group">
+                            <label>INE Testigo 1</label>
+                            <input type="file" name="ine_testigo1" accept=".pdf,.jpg,.jpeg,.png">
+                            <span class="helper-text">Ambos lados</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Giro de la empresa<span class="required">*</span></label>
-                        <input type="text" name="giro" required>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>C) Nombre y puesto Testigo 2</label>
+                            <input type="text" name="testigo2">
+                        </div>
+                        <div class="form-group file-upload-group">
+                            <label>INE Testigo 2</label>
+                            <input type="file" name="ine_testigo2" accept=".pdf,.jpg,.jpeg,.png">
+                            <span class="helper-text">Ambos lados</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="section-title">SOBRE EL INFORME DE RESULTADOS</div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Nombre de a quién se dirige<span class="required">*</span></label>
-                        <input type="text" name="nombre_dirigido" required>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>D) Poder notarial</label>
+                            <input type="file" name="poder_notarial" accept=".pdf">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Puesto de a quién se dirige<span class="required">*</span></label>
-                        <input type="text" name="puesto_dirigido" required>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>E) INE del representante legal</label>
+                            <input type="file" name="ine_representante" accept=".pdf,.jpg,.jpeg,.png">
+                            <span class="helper-text">Copia por ambos lados</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Correo electrónico para enviar el informe digital<span class="required">*</span></label>
-                        <input type="email" name="correo_informe" required>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>F) Constancia de situación fiscal</label>
+                            <input type="file" name="situacion_fiscal" accept=".pdf">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="section-title">DESCRIPCIÓN DEL PROCESO</div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Breve descripción del proceso operativo o productivo</label>
-                        <textarea name="descripcion_proceso" placeholder="Describa brevemente el proceso operativo de su empresa..."></textarea>
-                        <span class="helper-text">Opcional: También puede adjuntar documento más adelante</span>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>G) Licencia de uso de suelo / Licencia de funcionamiento / Cédula IMSS</label>
+                            <input type="file" name="licencia" accept=".pdf">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="section-title">ARCHIVOS ADJUNTOS</div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>1) Planos generales - Layout de la empresa</label>
-                        <input type="file" name="planos" accept=".pdf,.jpg,.jpeg,.png,.dwg">
-                        <span class="helper-text">Formatos: PDF, JPG, PNG, DWG</span>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>2) Programa de mantenimiento</label>
-                        <input type="file" name="mantenimiento" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                        <span class="helper-text">Luminarias, maquinaria, sistema de tierras (según aplique)</span>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>3) Proceso de producción</label>
-                        <input type="file" name="proceso_produccion" accept=".pdf,.doc,.docx">
-                        <span class="helper-text">Solo si no lo describió anteriormente</span>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width file-upload-group">
+                            <label>H) DC-3 de personal operador</label>
+                            <input type="file" name="dc3" accept=".pdf">
+                            <span class="helper-text">Recipientes a presión o fogonero (calderas)</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>4) Requisitos obligatorios para ingresar a planta</label>
-                        <input type="file" name="requisitos_ingreso" accept=".pdf,.doc,.docx">
-                        <span class="helper-text">EPP, documentación u otros</span>
-                    </div>
-                </div>
-                
-                <div class="section-title">DOCUMENTACIÓN LEGAL (Recipientes/Calderas)</div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>A) INE de quien nos atenderá</label>
-                        <input type="file" name="ine_atencion" accept=".pdf,.jpg,.jpeg,.png">
-                        <span class="helper-text">Copia por ambos lados</span>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>B) Nombre y puesto Testigo 1</label>
-                        <input type="text" name="testigo1">
-                    </div>
-                    <div class="form-group">
-                        <label>C) Nombre y puesto Testigo 2</label>
-                        <input type="text" name="testigo2">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>D) Poder notarial</label>
-                        <input type="file" name="poder_notarial" accept=".pdf">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>E) INE del representante legal</label>
-                        <input type="file" name="ine_representante" accept=".pdf,.jpg,.jpeg,.png">
-                        <span class="helper-text">Copia por ambos lados</span>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>F) Constancia de situación fiscal</label>
-                        <input type="file" name="situacion_fiscal" accept=".pdf">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>G) Licencia de uso de suelo / Licencia de funcionamiento / Cédula IMSS</label>
-                        <input type="file" name="licencia" accept=".pdf">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>H) DC-3 de personal operador</label>
-                        <input type="file" name="dc3" accept=".pdf">
-                        <span class="helper-text">Recipientes a presión o fogonero (calderas)</span>
-                    </div>
-                </div>
-                
+                <!-- Submit Section -->
                 <div class="submit-section">
                     <button type="submit" class="btn-submit" id="submitBtn">
                         Enviar Información
@@ -422,14 +602,14 @@
                     
                     <div class="loading" id="loading">
                         <div class="loading-spinner"></div>
-                        <p style="margin-top: 15px; color: #005600;">Procesando información...</p>
+                        <p class="loading-text">Procesando información...</p>
                     </div>
                     
-                    <div class="success-message" id="successMsg">
+                    <div class="message success-message" id="successMsg">
                         ✓ ¡Información enviada correctamente! Recibirá una confirmación por correo.
                     </div>
                     
-                    <div class="error-message" id="errorMsg">
+                    <div class="message error-message" id="errorMsg">
                         ✗ Error al enviar la información. Por favor, intente nuevamente.
                     </div>
                 </div>
@@ -438,9 +618,38 @@
     </div>
     
     <script>
-        // CONFIGURACIÓN: Reemplaza esta URL con la de tu Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMbddh70JDuLweBpkx_9mDe7X2QVSVPSL8Mgx9DvlNqW913X0JMpEnLkNmYr0pfcvW/exec';
+        // CONFIGURACIÓN
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMbddh70JDuLweBpkx_9mDe7X2QVSVPS1s8kg9sDYJMqd913XnJhgEnLkhMnYrpFtCvA/exec';
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
         
+        // Validación de RFC en tiempo real
+        document.querySelector('input[name="rfc"]').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+            
+            if (this.value.length >= 12) {
+                const rfcPattern = /^[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}$/;
+                if (rfcPattern.test(this.value)) {
+                    this.style.borderColor = '#28a745';
+                } else {
+                    this.style.borderColor = '#dc3545';
+                }
+            }
+        });
+        
+        // Validación de tamaño de archivos
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.files[0] && this.files[0].size > MAX_FILE_SIZE) {
+                    alert('El archivo es demasiado grande. Máximo 10MB por archivo.');
+                    this.value = '';
+                    this.style.borderColor = '#dc3545';
+                } else if (this.files[0]) {
+                    this.style.borderColor = '#28a745';
+                }
+            });
+        });
+        
+        // Submit form
         document.getElementById('perfilDatosForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -459,9 +668,9 @@
             
             try {
                 const formData = new FormData(this);
-                
-                // Convertir archivos a Base64
                 const data = {};
+                
+                // Convertir FormData a objeto, incluyendo archivos en Base64
                 for (let [key, value] of formData.entries()) {
                     if (value instanceof File && value.size > 0) {
                         data[key] = await fileToBase64(value);
@@ -488,6 +697,11 @@
                 // Limpiar formulario
                 this.reset();
                 
+                // Reset file input borders
+                document.querySelectorAll('input[type="file"]').forEach(input => {
+                    input.style.borderColor = '#ccc';
+                });
+                
                 // Scroll al mensaje
                 successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
@@ -501,7 +715,7 @@
             }
         });
         
-        // Función para convertir archivo a Base64
+        // Convertir archivo a Base64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -510,11 +724,6 @@
                 reader.onerror = error => reject(error);
             });
         }
-        
-        // Validación del RFC en tiempo real
-        document.querySelector('input[name="rfc"]').addEventListener('input', function(e) {
-            this.value = this.value.toUpperCase();
-        });
     </script>
 </body>
 </html>
