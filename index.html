@@ -279,6 +279,64 @@
             font-weight: 500;
         }
         
+        /* Botones Flotantes */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .floating-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        .floating-btn.phone {
+            background: linear-gradient(135deg, #1e5a3e, #2d7a4f);
+            color: white;
+        }
+        
+        .floating-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .floating-btn-tooltip {
+            position: absolute;
+            right: 75px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .floating-btn:hover .floating-btn-tooltip {
+            opacity: 1;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             body {
@@ -307,6 +365,22 @@
             .document-info p {
                 text-align: center;
             }
+            
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+                gap: 12px;
+            }
+            
+            .floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+            
+            .floating-btn-tooltip {
+                display: none;
+            }
         }
         
         /* File upload styling */
@@ -329,6 +403,45 @@
     </style>
 </head>
 <body>
+    <!-- Modal de Bienvenida -->
+    <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: white; border-radius: 10px; max-width: 600px; width: 90%; padding: 40px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+            <div style="width: 80px; height: 80px; background: #1e5a3e; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; font-weight: bold;">EA</div>
+            
+            <h2 style="color: #1e5a3e; margin: 0 0 20px 0; font-size: 24px;">¡Bienvenido!</h2>
+            
+            <p style="color: #333; font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
+                <strong>ESTIMADO CLIENTE,</strong>
+            </p>
+            
+            <p style="color: #666; font-size: 15px; line-height: 1.8; margin-bottom: 20px;">
+                Hemos creado esta plataforma para mejorar su experiencia con nosotros. Es por ello que le agradecemos enormemente su confianza.
+            </p>
+            
+            <div style="background: #f0f9f4; border-left: 4px solid #1e5a3e; padding: 20px; margin: 25px 0; border-radius: 5px;">
+                <p style="color: #1e5a3e; font-size: 14px; margin: 0; font-weight: 500;">
+                    <strong>¿Tiene alguna duda?</strong><br>
+                    <span style="color: #666; font-weight: normal;">Por favor, no dude en comunicarse con nosotros:</span>
+                </p>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; margin: 30px 0;">
+                <a href="tel:2229417295" style="flex: 1; background: #1e5a3e; color: white; padding: 15px 20px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span style="font-size: 20px;">📞</span>
+                    Llamar Ahora
+                </a>
+                <a href="https://wa.me/522791113533" target="_blank" style="flex: 1; background: #25D366; color: white; padding: 15px 20px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span style="font-size: 20px;">💬</span>
+                    WhatsApp
+                </a>
+            </div>
+            
+            <button onclick="closeWelcomeModal()" style="background: #6c757d; color: white; border: none; padding: 12px 40px; border-radius: 5px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.3s;">
+                Continuar al Formulario
+            </button>
+        </div>
+    </div>
+
     <div class="main-container">
         <!-- Header -->
         <div class="header">
@@ -412,25 +525,25 @@
                     <!-- CAMPOS ADICIONALES -->
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label>Actividad principal<span class="optional">(Opcional)</span></label>
+                            <label>Actividad principal</label>
                             <input type="text" name="actividad_principal">
                         </div>
                     </div>
                     
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Registro patronal<span class="optional">(Opcional)</span></label>
+                            <label>Registro patronal</label>
                             <input type="text" name="registro_patronal">
                         </div>
                         <div class="form-group">
-                            <label>Capacidad instalada<span class="optional">(Opcional)</span></label>
+                            <label>Capacidad instalada</label>
                             <input type="text" name="capacidad_instalada">
                         </div>
                     </div>
                     
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label>Capacidad de operación<span class="optional">(Opcional)</span></label>
+                            <label>Capacidad de operación</label>
                             <input type="text" name="capacidad_operacion">
                         </div>
                     </div>
@@ -476,7 +589,7 @@
                     
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label>Breve descripción del proceso operativo o productivo<span class="optional">(Opcional)</span></label>
+                            <label>Breve descripción del proceso operativo o productivo</label>
                             <textarea name="descripcion_proceso" placeholder="Describa brevemente el proceso operativo de su empresa..."></textarea>
                             <span class="helper-text">También puede adjuntar documento más adelante</span>
                         </div>
@@ -522,7 +635,7 @@
                 
                 <!-- DOCUMENTACIÓN LEGAL -->
                 <div class="section">
-                    <div class="section-header">SOLO SI SON RECIPIENTES O CALDERAS - Documentación Legal </div>
+                    <div class="section-header">Documentación Legal (Recipientes/Calderas)</div>
                     
                     <div class="form-grid">
                         <div class="form-group full-width file-upload-group">
@@ -617,10 +730,36 @@
         </div>
     </div>
     
+    <!-- Botones Flotantes de Contacto -->
+    <div class="floating-buttons">
+        <a href="tel:2229417295" class="floating-btn phone" title="Llamar ahora">
+            <span class="floating-btn-tooltip">Llamar: 222 941 7295</span>
+            📞
+        </a>
+        <a href="https://wa.me/522791113533" target="_blank" class="floating-btn whatsapp" title="WhatsApp">
+            <span class="floating-btn-tooltip">WhatsApp: 279 111 3533</span>
+            💬
+        </a>
+    </div>
+    
     <script>
         // CONFIGURACIÓN
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMbddh70JDuLweBpkx_9mDe7X2QVSVPSL8Mgx9DvlNqW913X0JMpEnLkNmYr0pfcvW/exec';
         const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        
+        // Mostrar modal de bienvenida al cargar
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const modal = document.getElementById('welcomeModal');
+                modal.style.display = 'flex';
+            }, 500);
+        });
+        
+        // Función para cerrar modal
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            modal.style.display = 'none';
+        }
         
         // Validación de RFC en tiempo real
         document.querySelector('input[name="rfc"]').addEventListener('input', function(e) {
