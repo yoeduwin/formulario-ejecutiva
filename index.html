@@ -291,7 +291,7 @@
             <div class="form-group full-width">
               <label>Correo electrónico para enviar el informe digital<span class="required">*</span></label>
               <input type="email" name="correo_informe" required>
-              <span class="helper-text">⚠️ Verifique que el correo sea correcto - aquí recibirá su informe</span>
+              <span class="helper-text">⚠️ Verifique que el correo sea correcto - aquí recibirá su informe mediante nuestra plataforma</span>
             </div>
           </div>
         </div>
@@ -379,17 +379,17 @@
         </div>
 
         <div class="section">
-          <div class="section-header">Documentación Legal (Recipientes/Calderas)</div>
+          <div class="section-header">NOM-020-STPS - RECIPIENTES, CALDERAS Y GENERADORES DE VAPOR</div>
 
           <div class="form-grid">
             <div class="form-group full-width">
-              <label style="font-size:13px; text-transform:none;">
+              <label style="font-size:13px; text-transform:none;">   
                 ¿El servicio es para evaluación de NOM-020-STPS-2011 (Recipientes sujetos a presión, recipientes criogénicos y generadores de vapor o calderas)?<span class="required">*</span>
               </label>
               <div class="radio-group">
                 <div class="radio-option">
                   <input type="radio" id="nom020_si" name="aplica_nom020" value="si" required>
-                  <label for="nom020_si">Sí, tenemos equipos de este tipo</label>
+                  <label for="nom020_si">Sí</label>
                 </div>
                 <div class="radio-option">
                   <input type="radio" id="nom020_no" name="aplica_nom020" value="no">
@@ -517,6 +517,76 @@
                   </div>
                 </div>
               </div>
+               <div class="form-grid">
+              <div class="form-group full-width file-upload-group" data-upload-group="calibracion_valvula">
+                <label>I) Dictamen de Calibración de la válvula <span class="required" id="asterisco_calib">*</span></label>
+                
+                <div style="background: #fff8e1; border: 1px solid #ffe082; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px;">
+                  <input type="checkbox" id="check_sin_calibracion" name="sin_calibracion" style="margin-top: 3px; cursor: pointer;">
+                  <label for="check_sin_calibracion" style="cursor: pointer; font-size: 11px; color: #f57f17; text-transform: none; margin: 0; line-height: 1.4;">
+                    <strong>Si no tienes calibradas tus válvulas</strong><br>
+                    Puedes contratar con Ejecutiva este servicio adicional el mismo día de la dictaminación en tus instalaciones.
+                  </label>
+                </div>
+
+                <input type="file" name="calibracion_valvula" accept=".pdf" 
+                       data-file-input="calibracion_valvula" 
+                       data-conditional-required="nom020">
+                
+                <span class="helper-text" id="help_text_calib">Adjunte el archivo PDF de su última calibración.</span>
+
+                <div class="file-preview" data-preview="calibracion_valvula">
+                  <div class="file-preview-content">
+                    <div class="file-info">
+                      <span class="file-icon">📄</span>
+                      <div><div class="file-name"></div><div class="file-size"></div></div>
+                    </div>
+                    <button type="button" class="file-remove" data-clear="calibracion_valvula">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="seccion_archivo_calibracion" style="display:none; background:#e8f5e9; padding:15px; border-radius:5px; margin-bottom:20px;">
+
+              <div class="form-group full-width file-upload-group" data-upload-group="calibracion_valvula">
+
+                <label>Adjuntar dictamen de calibración<span class="required">*</span></label>
+
+                <input type="file" name="calibracion_valvula" accept=".pdf" data-file-input="calibracion_valvula">
+
+                <div class="file-preview" data-preview="calibracion_valvula">
+
+                  <div class="file-preview-content">
+
+                    <div class="file-info"><span class="file-icon">📄</span><div><div class="file-name"></div><div class="file-size"></div></div></div>
+
+                    <button type="button" class="file-remove" data-clear="calibracion_valvula">Eliminar</button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div id="seccion_mensaje_calibracion" style="display:none; margin-bottom:20px;">
+
+              <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 5px;">
+
+                <p style="margin: 0; color: #856404; font-size: 12px;">
+
+                  <strong>✅ Enterado.</strong> Puede comunicarse con el área comercial o atención a clientes para solicitar informes sobre ese servicio, nosotros lo podemos realizar en sus instalaciones
+
+                </p>
+
+              </div>
+
+            </div>
+
+
             </div>
           </div>
         </div>
@@ -526,7 +596,7 @@
 
           <div class="form-grid">
             <div class="form-group full-width">
-              <label style="font-size: 13px; text-transform: none;">¿Requiere servicio de Programa Interno de Protección Civil?<span class="required">*</span></label>
+              <label style="font-size: 13px; text-transform: none;">¿El servicio es para realizar su Programa Interno de Protección Civil?<span class="required">*</span></label>
               <div class="radio-group">
                 <div class="radio-option">
                   <input type="radio" id="pipc_si" name="requiere_pipc" value="si" required>
@@ -534,7 +604,7 @@
                 </div>
                 <div class="radio-option">
                   <input type="radio" id="pipc_no" name="requiere_pipc" value="no">
-                  <label for="pipc_no">No, no requiero PIPC</label>
+                  <label for="pipc_no">No, no aplica</label>
                 </div>
               </div>
             </div>
@@ -995,7 +1065,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbUwDYDIJxG7FJ6LFGKpbTxqmS86qLUFWJsxCmWxTYH9DVuCeKV4hCMBUbl5QogdZH/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWOMPI8edg_ivcOCyFgosEAWpC9OYwu2TKP3DR88zbhKNJVI-rzVtJnOMrXPDu4PJ3/exec';
     const MAX_FILE_SIZE = 10 * 1024 * 1024;
     const WELCOME_COOKIE_NAME = 'ea_welcome_shown';
     const WELCOME_COOKIE_DAYS = 30;
