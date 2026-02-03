@@ -130,7 +130,7 @@
 
 <body>
   <!-- CAMBIO 1: Versión -->
-  <div class="version-tag">v2.0</div>
+  <div class="version-tag">v2.1</div>
 
   <div id="welcomeModal" class="modal-overlay">
     <div style="background: white; border-radius: 10px; max-width: 600px; width: 90%; padding: 40px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
@@ -1066,7 +1066,7 @@
           </div>
 
           <div class="message error-message" id="errorMsg">
-            ✗ Error al enviar la información. Por favor, intente nuevamente o contáctenos directamente.
+            ✗ <span id="errorMsgText">Error al enviar la información. Por favor, intente nuevamente o contáctenos directamente.</span>
           </div>
         </div>
       </form>
@@ -1446,6 +1446,22 @@
     }
 
     // ==================== ENVÍO ====================
+    function showError(message, detail = '') {
+      const errorMsg = document.getElementById('errorMsg');
+      const errorMsgText = document.getElementById('errorMsgText');
+      if (errorMsgText) {
+        let fullMessage = message;
+        if (detail) {
+          fullMessage += `<br><small style="opacity:0.8; font-size:11px;">(${detail})</small>`;
+        }
+        errorMsgText.innerHTML = fullMessage;
+      }
+      if (errorMsg) {
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     async function confirmAndSend() {
       closeConfirmationModal();
 
@@ -1463,9 +1479,11 @@
       try {
         const formData = new FormData(form);
         const data = {};
+        let totalFileSize = 0;
 
         for (let [key, value] of formData.entries()) {
           if (value instanceof File && value.size > 0) {
+            totalFileSize += value.size;
             data[key] = await fileToBase64(value);
             data[key + '_filename'] = value.name;
             data[key + '_size'] = value.size;
@@ -1474,42 +1492,111 @@
           }
         }
 
+        // Verificar tamaño total de archivos (máx ~25MB para Google Apps Script)
+        const MAX_TOTAL_SIZE = 25 * 1024 * 1024;
+        if (totalFileSize > MAX_TOTAL_SIZE) {
+          throw new Error('ARCHIVOS_MUY_GRANDES');
+        }
+
+        console.log('Enviando datos al servidor...', { totalFileSize: (totalFileSize / 1024 / 1024).toFixed(2) + ' MB' });
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min timeout
+
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
+          signal: controller.signal
         });
 
-        let result;
-        try { result = await response.json(); } catch { result = { success: true }; }
+        clearTimeout(timeoutId);
 
-        if (result.success !== false) {
-          if (loading) loading.style.display = 'none';
-          if (successMsg) successMsg.style.display = 'block';
+        console.log('Respuesta del servidor:', response.status, response.statusText);
 
-          form.reset();
-
-          // Reset previews
-          document.querySelectorAll('.file-preview').forEach(p => p.classList.remove('active'));
-          document.querySelectorAll('.file-upload-group').forEach(g => g.classList.remove('has-file'));
-
-          // Ocultar secciones condicionales + limpiar requireds
-          if (docLegalSection) docLegalSection.classList.remove('active');
-          document.querySelectorAll('[data-conditional-required="nom020"]').forEach(f => (f.required = false));
-
-          if (docPIPCSection) docPIPCSection.classList.remove('active');
-          document.querySelectorAll('[data-conditional-required="pipc"]').forEach(f => (f.required = false));
-          resetPIPCConditionals();
-
-          if (successMsg) successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          throw new Error(result.error || 'Error desconocido');
+        if (!response.ok) {
+          throw new Error(`HTTP_ERROR_${response.status}`);
         }
-      } catch (error) {
-        console.error(error);
+
+        let result;
+        const responseText = await response.text();
+        console.log('Texto de respuesta:', responseText.substring(0, 200));
+
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          // Si no es JSON pero la respuesta fue exitosa (200), asumimos éxito
+          if (response.ok && responseText.includes('success')) {
+            result = { success: true };
+          } else if (response.ok) {
+            // Google Apps Script a veces devuelve HTML en vez de JSON
+            result = { success: true };
+          } else {
+            throw new Error('RESPUESTA_INVALIDA');
+          }
+        }
+
+        if (result.success === false) {
+          throw new Error(result.error || 'ERROR_SERVIDOR');
+        }
+
+        // Éxito
         if (loading) loading.style.display = 'none';
-        if (errorMsg) errorMsg.style.display = 'block';
-        if (errorMsg) errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (successMsg) successMsg.style.display = 'block';
+
+        form.reset();
+
+        // Reset previews
+        document.querySelectorAll('.file-preview').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.file-upload-group').forEach(g => g.classList.remove('has-file'));
+
+        // Ocultar secciones condicionales + limpiar requireds
+        if (docLegalSection) docLegalSection.classList.remove('active');
+        document.querySelectorAll('[data-conditional-required="nom020"]').forEach(f => (f.required = false));
+
+        if (docPIPCSection) docPIPCSection.classList.remove('active');
+        document.querySelectorAll('[data-conditional-required="pipc"]').forEach(f => (f.required = false));
+        resetPIPCConditionals();
+
+        if (successMsg) successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      } catch (error) {
+        console.error('Error en envío:', error);
+        if (loading) loading.style.display = 'none';
+
+        // Mensajes de error específicos
+        if (error.name === 'AbortError' || error.message === 'AbortError') {
+          showError(
+            'La solicitud tardó demasiado tiempo. Puede ser que los archivos sean muy grandes.',
+            'Intente con archivos más pequeños o contáctenos directamente'
+          );
+        } else if (error.message === 'ARCHIVOS_MUY_GRANDES') {
+          showError(
+            'Los archivos adjuntos son demasiado grandes en total (máx. 25MB).',
+            'Intente comprimir los archivos PDF o reducir el tamaño de las imágenes'
+          );
+        } else if (error.message === 'Failed to fetch' || error.message.includes('NetworkError')) {
+          showError(
+            'Error de conexión. Verifique su conexión a Internet.',
+            'Si el problema persiste, contáctenos por WhatsApp'
+          );
+        } else if (error.message.startsWith('HTTP_ERROR_')) {
+          const status = error.message.replace('HTTP_ERROR_', '');
+          showError(
+            `Error del servidor (código ${status}). Por favor intente nuevamente.`,
+            'Si el problema persiste, contáctenos directamente'
+          );
+        } else if (error.message === 'RESPUESTA_INVALIDA' || error.message === 'ERROR_SERVIDOR') {
+          showError(
+            'El servidor no pudo procesar la solicitud. Por favor intente nuevamente.',
+            'Si el problema persiste, contáctenos por WhatsApp o teléfono'
+          );
+        } else {
+          showError(
+            'Error al enviar la información. Por favor, intente nuevamente o contáctenos directamente.',
+            error.message || 'Error desconocido'
+          );
+        }
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }
