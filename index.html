@@ -125,12 +125,158 @@
     .file-upload-group:hover { border-color:#1e5a3e; background:#f0f9f4; }
     .file-upload-group.has-file { border-color:#4caf50; background:#e8f5e9; }
     .file-upload-group label { margin-bottom:8px; }
+
+    /* ===== CLIENTE RECURRENTE v7.1 ===== */
+    .btn-returning {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all .3s;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .btn-returning:hover {
+      background: rgba(255,255,255,0.25);
+      border-color: #fff;
+    }
+
+    .rfc-search-modal .modal-search-box {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .rfc-search-modal .modal-search-box input {
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .rfc-search-modal .modal-search-box input:focus {
+      border-color: #1e5a3e;
+      outline: none;
+    }
+    .rfc-search-modal .btn-search {
+      background: #1e5a3e;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .rfc-search-modal .btn-search:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .rfc-search-result {
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+      display: none;
+    }
+    .rfc-search-result.found {
+      display: block;
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+    }
+    .rfc-search-result.not-found {
+      display: block;
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+    }
+    .rfc-search-result.error {
+      display: block;
+      background: #f8d7da;
+      border-left: 4px solid #dc3545;
+    }
+
+    .file-on-record {
+      display: none;
+      padding: 10px 15px;
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: #1565c0;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .file-on-record.active {
+      display: flex;
+    }
+    .file-on-record .on-record-text {
+      font-weight: 600;
+    }
+    .file-on-record .btn-upload-new {
+      background: none;
+      border: 1px solid #1565c0;
+      color: #1565c0;
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .file-on-record .btn-upload-new:hover {
+      background: #1565c0;
+      color: #fff;
+    }
+
+    .returning-banner {
+      display: none;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      border-left: 4px solid #4caf50;
+      padding: 15px 20px;
+      margin: 0 -40px 25px -40px;
+      font-size: 12px;
+      color: #2e7d32;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .returning-banner.active {
+      display: flex;
+    }
+    .returning-banner .banner-text strong {
+      font-size: 13px;
+    }
+    .returning-banner .btn-clear-prefill {
+      background: none;
+      border: 1px solid #2e7d32;
+      color: #2e7d32;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .returning-banner .btn-clear-prefill:hover {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    @media (max-width:768px) {
+      .btn-returning { font-size:10px; padding:6px 12px; }
+      .returning-banner { margin:0 -20px 20px -20px; flex-direction:column; gap:10px; }
+    }
+    /* ===== FIN CLIENTE RECURRENTE ===== */
   </style>
 </head>
 
 <body>
   <!-- CAMBIO 1: Versión -->
-  <div class="version-tag">v2.1</div>
+  <div class="version-tag">v2.2</div>
 
   <div id="welcomeModal" class="modal-overlay">
     <div style="background: white; border-radius: 10px; max-width: 600px; width: 90%; padding: 40px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
@@ -160,6 +306,21 @@
     </div>
   </div>
 
+  <div id="returningModal" class="modal-overlay">
+    <div class="rfc-search-modal" style="background:white; border-radius:10px; max-width:500px; width:90%; padding:30px; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+      <h2 style="color:#1e5a3e; margin:0 0 5px 0; font-size:20px;">Ya soy cliente</h2>
+      <p style="color:#666; font-size:13px; margin:0 0 15px 0;">Ingrese su RFC y pre-llenaremos sus datos para agilizar el proceso.</p>
+      <div class="modal-search-box">
+        <input type="text" id="rfcSearch" placeholder="RFC (ej. ABC123456XX0)" maxlength="13" autocomplete="off">
+        <button type="button" class="btn-search" id="btnSearchRFC" onclick="searchClientByRFC()">Buscar</button>
+      </div>
+      <div id="rfcSearchResult" class="rfc-search-result"></div>
+      <div style="text-align:center; margin-top:20px;">
+        <button type="button" onclick="closeReturningModal()" style="background:#6c757d; color:white; border:none; padding:10px 30px; border-radius:5px; font-size:13px; cursor:pointer;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <div id="confirmationModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header"><h2>⚠️ Verificar Información Antes de Enviar</h2></div>
@@ -179,6 +340,7 @@
       <div class="document-info">
         <h2>PERFIL DE DATOS</h2>
         <p>Información del Cliente</p>
+        <button type="button" class="btn-returning" onclick="openReturningModal()" style="margin-top:8px;">Ya soy cliente</button>
       </div>
     </div>
 
@@ -186,6 +348,14 @@
       <form id="perfilDatosForm">
         <div class="section">
           <div class="section-header">Información General</div>
+
+          <div id="returningBanner" class="returning-banner">
+            <div class="banner-text">
+              <strong>Cliente identificado</strong><br>
+              Hemos pre-llenado sus datos. Verifique que estén correctos y complete solo lo nuevo.
+            </div>
+            <button type="button" class="btn-clear-prefill" onclick="clearPrefill()">Limpiar datos</button>
+          </div>
 
           <div class="form-grid">
             <div class="form-group full-width">
@@ -1611,6 +1781,252 @@
         reader.onerror = reject;
       });
     }
+
+    // ==================== CLIENTE RECURRENTE v7.1 ====================
+    let isReturningClient = false;
+
+    function openReturningModal() {
+      const modal = document.getElementById('returningModal');
+      if (modal) modal.style.display = 'flex';
+      const input = document.getElementById('rfcSearch');
+      if (input) { input.value = ''; input.focus(); }
+      const result = document.getElementById('rfcSearchResult');
+      if (result) { result.className = 'rfc-search-result'; result.style.display = 'none'; }
+    }
+    window.openReturningModal = openReturningModal;
+
+    function closeReturningModal() {
+      const modal = document.getElementById('returningModal');
+      if (modal) modal.style.display = 'none';
+    }
+    window.closeReturningModal = closeReturningModal;
+
+    // Enter para buscar
+    const rfcSearchInput = document.getElementById('rfcSearch');
+    if (rfcSearchInput) {
+      rfcSearchInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
+      rfcSearchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); searchClientByRFC(); }
+      });
+    }
+
+    async function searchClientByRFC() {
+      const rfcInput = document.getElementById('rfcSearch');
+      const resultDiv = document.getElementById('rfcSearchResult');
+      const btnSearch = document.getElementById('btnSearchRFC');
+      const rfc = (rfcInput ? rfcInput.value.trim().toUpperCase() : '');
+
+      if (!rfc || rfc.length < 12) {
+        resultDiv.className = 'rfc-search-result error';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<strong>RFC no valido.</strong> Debe tener al menos 12 caracteres.';
+        return;
+      }
+
+      btnSearch.disabled = true;
+      btnSearch.textContent = 'Buscando...';
+      resultDiv.style.display = 'none';
+
+      try {
+        const url = SCRIPT_URL + '?action=buscar&rfc=' + encodeURIComponent(rfc);
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.found) {
+          resultDiv.className = 'rfc-search-result found';
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <strong>Cliente encontrado</strong><br>
+            <span style="font-size:13px;">${data.razon_social || ''}</span><br>
+            <small style="color:#666;">Ultimo servicio: ${data.ultimo_servicio_fecha || 'N/A'}</small><br><br>
+            <button type="button" onclick="applyClientData()" style="background:#1e5a3e; color:#fff; border:none; padding:10px 25px; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer;">Usar estos datos</button>
+          `;
+          // Guardar datos temporalmente
+          window._returningClientData = data;
+        } else {
+          resultDiv.className = 'rfc-search-result not-found';
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = '<strong>RFC no encontrado.</strong><br><small>Puede continuar llenando el formulario como cliente nuevo.</small>';
+        }
+      } catch (err) {
+        resultDiv.className = 'rfc-search-result error';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<strong>Error de conexion.</strong><br><small>Verifique su conexion a internet e intente nuevamente.</small>';
+      } finally {
+        btnSearch.disabled = false;
+        btnSearch.textContent = 'Buscar';
+      }
+    }
+    window.searchClientByRFC = searchClientByRFC;
+
+    function applyClientData() {
+      const data = window._returningClientData;
+      if (!data) return;
+
+      isReturningClient = true;
+
+      // Pre-llenar campos de texto
+      const fieldMap = {
+        'nombre_solicitante': data.nombre_solicitante,
+        'razon_social': data.razon_social,
+        'sucursal': data.sucursal,
+        'rfc': data.rfc,
+        'telefono_empresa': data.telefono_empresa,
+        'representante_legal': data.representante_legal,
+        'direccion_evaluacion': data.direccion_evaluacion,
+        'responsable': data.responsable,
+        'telefono_responsable': data.telefono_responsable,
+        'giro': data.giro,
+        'actividad_principal': data.actividad_principal,
+        'registro_patronal': data.registro_patronal,
+        'capacidad_instalada': data.capacidad_instalada,
+        'capacidad_operacion': data.capacidad_operacion,
+        'dias_turnos_horarios': data.dias_turnos_horarios,
+        'nombre_dirigido': data.nombre_dirigido,
+        'puesto_dirigido': data.puesto_dirigido,
+        'correo_informe': data.correo_informe,
+        'descripcion_proceso': data.descripcion_proceso
+      };
+
+      for (const [fieldName, value] of Object.entries(fieldMap)) {
+        if (value) {
+          const el = document.querySelector(`[name="${fieldName}"]`);
+          if (el) el.value = value;
+        }
+      }
+
+      // Colorear RFC si fue llenado
+      const rfcField = document.querySelector('input[name="rfc"]');
+      if (rfcField && rfcField.value.length >= 12) {
+        rfcField.style.borderColor = '#28a745';
+      }
+
+      // Mostrar banner de cliente recurrente
+      const banner = document.getElementById('returningBanner');
+      if (banner) banner.classList.add('active');
+
+      // Mostrar indicadores "Ya en expediente" si el cliente tenía archivos
+      if (data.tenia_archivos) {
+        showOnRecordIndicators();
+      }
+
+      // Cerrar modal
+      closeReturningModal();
+
+      // Scroll al inicio del formulario
+      const formContent = document.querySelector('.form-content');
+      if (formContent) formContent.scrollIntoView({ behavior: 'smooth' });
+    }
+    window.applyClientData = applyClientData;
+
+    function showOnRecordIndicators() {
+      // Lista de archivos generales que probablemente ya tiene en expediente
+      const generalFileKeys = [
+        'planos', 'mantenimiento', 'proceso_produccion', 'requisitos_ingreso'
+      ];
+
+      generalFileKeys.forEach(key => {
+        const uploadGroup = document.querySelector(`[data-upload-group="${key}"]`);
+        if (!uploadGroup) return;
+
+        // Verificar que no exista ya un indicador
+        if (uploadGroup.querySelector('.file-on-record')) return;
+
+        const fileInput = uploadGroup.querySelector('input[type="file"]');
+        if (!fileInput) return;
+
+        // Crear indicador
+        const indicator = document.createElement('div');
+        indicator.className = 'file-on-record active';
+        indicator.dataset.onRecordFor = key;
+        indicator.innerHTML = `
+          <span class="on-record-text">Ya tenemos este documento en expediente</span>
+          <button type="button" class="btn-upload-new" onclick="showFileInput('${key}')">Subir nuevo</button>
+        `;
+
+        // Insertar antes del input
+        fileInput.style.display = 'none';
+        fileInput.removeAttribute('required');
+        uploadGroup.insertBefore(indicator, fileInput);
+
+        // Ocultar helper text
+        const helper = uploadGroup.querySelector('.helper-text');
+        if (helper) helper.style.display = 'none';
+      });
+    }
+
+    function showFileInput(fileKey) {
+      const uploadGroup = document.querySelector(`[data-upload-group="${fileKey}"]`);
+      if (!uploadGroup) return;
+
+      // Ocultar indicador
+      const indicator = uploadGroup.querySelector('.file-on-record');
+      if (indicator) indicator.classList.remove('active');
+
+      // Mostrar input
+      const fileInput = uploadGroup.querySelector('input[type="file"]');
+      if (fileInput) {
+        fileInput.style.display = '';
+        // Restaurar required solo para planos (el unico obligatorio)
+        if (fileKey === 'planos') fileInput.required = true;
+      }
+
+      // Mostrar helper text
+      const helper = uploadGroup.querySelector('.helper-text');
+      if (helper) helper.style.display = '';
+    }
+    window.showFileInput = showFileInput;
+
+    function clearPrefill() {
+      isReturningClient = false;
+
+      // Limpiar todos los campos del formulario
+      const form = document.getElementById('perfilDatosForm');
+      if (form) form.reset();
+
+      // Ocultar banner
+      const banner = document.getElementById('returningBanner');
+      if (banner) banner.classList.remove('active');
+
+      // Restaurar indicadores de archivos
+      document.querySelectorAll('.file-on-record').forEach(indicator => {
+        const key = indicator.dataset.onRecordFor;
+        indicator.remove();
+
+        if (key) {
+          const uploadGroup = document.querySelector(`[data-upload-group="${key}"]`);
+          if (uploadGroup) {
+            const fileInput = uploadGroup.querySelector('input[type="file"]');
+            if (fileInput) {
+              fileInput.style.display = '';
+              if (key === 'planos') fileInput.required = true;
+            }
+            const helper = uploadGroup.querySelector('.helper-text');
+            if (helper) helper.style.display = '';
+          }
+        }
+      });
+
+      // Limpiar previews de archivos
+      document.querySelectorAll('.file-preview').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.file-upload-group').forEach(g => g.classList.remove('has-file'));
+
+      // Ocultar secciones condicionales
+      if (docLegalSection) docLegalSection.classList.remove('active');
+      document.querySelectorAll('[data-conditional-required="nom020"]').forEach(f => (f.required = false));
+      if (docPIPCSection) docPIPCSection.classList.remove('active');
+      document.querySelectorAll('[data-conditional-required="pipc"]').forEach(f => (f.required = false));
+      resetPIPCConditionals();
+
+      // Reset RFC color
+      const rfcField = document.querySelector('input[name="rfc"]');
+      if (rfcField) rfcField.style.borderColor = '';
+
+      window._returningClientData = null;
+    }
+    window.clearPrefill = clearPrefill;
   </script>
 </body>
 </html>
